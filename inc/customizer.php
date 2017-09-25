@@ -25,6 +25,18 @@ function dart_theme_customize_register( $wp_customize ) {
 			'render_callback' => 'dart_theme_customize_partial_blogdescription',
 		) );
 	}
+
+	// Text color customization
+	$wp_customize->add_setting( 'text_color' , array(
+	    'default' => '#00000'
+	) );
+
+	$wp_customize->add_control( 'text_color', array(
+		'settings'	=> 'text_color',
+		'label'		=> __('Text Color', 'dart-theme'),
+		'section'	=> 'colors',
+		'type'		=> 'color'
+	) );
 }
 add_action( 'customize_register', 'dart_theme_customize_register' );
 
@@ -53,3 +65,15 @@ function dart_theme_customize_preview_js() {
 	wp_enqueue_script( 'dart-theme-customizer', get_template_directory_uri() . '/js/customizer.js', array( 'customize-preview' ), '20151215', true );
 }
 add_action( 'customize_preview_init', 'dart_theme_customize_preview_js' );
+
+/**
+ * Output custom CSS to header
+ */
+function customize_header_css() {
+	?>
+		<style type="text/css">
+			body { color: <?php echo get_theme_mod( 'text_color' ); ?>; }
+		</style>
+	<?php
+}
+add_action( 'wp_head', 'customize_header_css');
