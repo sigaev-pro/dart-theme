@@ -126,6 +126,11 @@ function dart_theme_scripts() {
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
 	}
+
+	// enqueue AJAX pagination script if setting is enabled
+	if ( get_option( 'ajax_pagination' ) ) {
+		wp_enqueue_script( 'dart-theme-ajax-pagination', get_template_directory_uri() . '/js/ajax-pagination.js', array('jquery'), false, true );
+	}
 }
 add_action( 'wp_enqueue_scripts', 'dart_theme_scripts' );
 
@@ -160,3 +165,8 @@ if ( defined( 'JETPACK__VERSION' ) ) {
  * Admin customizations.
  */
 require get_template_directory() . '/inc/custom-admin.php';
+
+/**
+ * Custom settings.
+ */
+require get_template_directory() . '/inc/settings.php';
